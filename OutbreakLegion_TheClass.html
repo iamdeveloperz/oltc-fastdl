@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Outbreak Legion : The Class — 병과 안내서</title>
+<style>
+:root{--bg:#0f1115;--card:#171a21;--line:#2a2f3a;--fg:#e6e8ec;--dim:#8b93a1;
+      --num:#ffd479;--per:#7fc6f5;--nav:#13161c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:14px/1.7 "Pretendard","Malgun Gothic",system-ui,sans-serif}
+a{color:inherit;text-decoration:none}
+
+/* ---- 좌우 배치 ---- */
+.layout{display:flex;align-items:flex-start;max-width:1400px;margin:0 auto}
+main{flex:1;min-width:0;padding:32px 26px 90px}
+
+/* ---- 오른쪽 내비게이션 ---- */
+nav{position:sticky;top:0;width:230px;flex:none;height:100vh;overflow-y:auto;
+ background:var(--nav);border-left:1px solid var(--line);padding:26px 18px;order:2}
+nav h5{margin:0 0 14px;font-size:12px;color:var(--dim);letter-spacing:.08em}
+.navgrp{margin-bottom:18px}
+.navtop{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
+.navsub a{display:block;font-size:12.5px;color:var(--dim);padding:3px 0 3px 12px;
+ border-left:2px solid var(--line)}
+.navsub a:hover{color:var(--fg);border-left-color:var(--num)}
+.navsub a.pa{color:#6b7280}
+
+h1{font-size:27px;margin:0 0 4px}
+.sub{color:var(--dim);margin:0 0 20px}
+.warn{background:#1a1f2b;border:1px solid #33405c;color:#bcd0ee;
+ padding:13px 16px;border-radius:8px;margin:0 0 28px;font-size:13px}
+.warn b{color:#ffd479}
+
+section{background:var(--card);border:1px solid var(--line);border-radius:12px;
+ padding:24px 26px;margin:0 0 26px}
+h2{font-size:21px;margin:0 0 6px;padding-left:11px;border-left:4px solid}
+.tagline{font-size:15px;font-weight:600;margin:10px 0 4px}
+.intro{color:var(--dim);margin:0 0 22px}
+h3.sec{font-size:13px;color:var(--dim);letter-spacing:.06em;margin:30px 0 12px;
+ padding-bottom:7px;border-bottom:1px solid var(--line)}
+.en{color:var(--dim);font-size:11px;font-weight:400}
+
+/* ---- 스킬 카드 ---- */
+.skill{background:#12151b;border:1px solid var(--line);border-radius:10px;
+ padding:18px 20px;margin:0 0 16px;scroll-margin-top:16px}
+.sk-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.sk-head h4{margin:0;font-size:16px}
+.badge{background:#232936;color:#9fb4d0;border-radius:5px;padding:2px 9px;
+ font-size:11px;white-space:nowrap}
+.sk-desc{margin:0 0 6px}
+.sk-type{margin:0 0 14px;color:var(--dim);font-size:12.5px}
+
+table.lv{width:100%;border-collapse:collapse;font-size:13px;margin:0 0 14px}
+table.lv th{background:#1b2029;color:var(--dim);font-weight:600;text-align:left;
+ padding:7px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.lv td{padding:8px 10px;border-bottom:1px solid #1e222b}
+table.lv tr:last-child td{border-bottom:none}
+td.c,th:nth-child(n+2){text-align:center}
+.n{color:var(--num);font-variant-numeric:tabular-nums;font-weight:600}
+.p{color:var(--per);font-variant-numeric:tabular-nums;font-size:12px}
+.dim{color:var(--dim)}
+
+.box{background:#171d27;border-left:3px solid #3a4657;border-radius:0 6px 6px 0;
+ padding:10px 14px;margin:0 0 10px;font-size:12.5px;line-height:1.7}
+.dimbox{color:var(--dim);border-left-color:#2a3140}
+
+/* ---- 데미지 공식 ---- */
+.formula{background:#0d1015;border:1px solid var(--line);border-radius:8px;
+ padding:16px 18px;margin:14px 0;overflow-x:auto}
+.formula pre{margin:0;color:#cfe3ff;font:12.5px/1.85 Consolas,monospace}
+table.steps{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0}
+table.steps th{background:#1b2029;color:var(--dim);text-align:left;padding:8px 10px;
+ border-bottom:1px solid var(--line)}
+table.steps td{padding:9px 10px;border-bottom:1px solid #1e222b;vertical-align:top}
+code{background:#20242d;padding:1px 6px;border-radius:4px;font-size:12px}
+footer{color:var(--dim);font-size:12px;margin-top:40px;text-align:center}
+@media(max-width:900px){nav{display:none}}
+</style></head><body>
+<div class="layout">
+
+<nav>
+<h5>목차</h5>
+<div class="navgrp"><a class="navtop" href="#dmg" style="color:#a78bfa">데미지 계산</a></div>
+<div class="navgrp"><a class="navtop" href="#ranger" style="color:#ff7a3c">레인저</a><div class="navsub"><a href="#ranger-a0">레일 스트라이크</a><a href="#ranger-a1">트레이스 불렛</a><a href="#ranger-a2">피어싱 불렛</a><a href="#ranger-a3">건호크</a><a href="#ranger-a4">제노사이드</a><a class="pa" href="#ranger-p0">레인저 마스터리</a><a class="pa" href="#ranger-p1">래피드 파이어</a><a class="pa" href="#ranger-p2">퀵 리로드</a><a class="pa" href="#ranger-p3">컴뱃 센스</a></div></div><div class="navgrp"><a class="navtop" href="#lifeguard" style="color:#4ade80">라이프가드</a><div class="navsub"><a href="#lifeguard-a0">큐어 불렛</a><a href="#lifeguard-a1">나노 수류탄</a><a href="#lifeguard-a2">라이트닝건</a><a href="#lifeguard-a3">힐링 드론</a><a href="#lifeguard-a4">CT 필드</a><a class="pa" href="#lifeguard-p0">라이프가드 마스터리</a><a class="pa" href="#lifeguard-p1">기관단총 마스터리</a><a class="pa" href="#lifeguard-p2">안티도트</a><a class="pa" href="#lifeguard-p3">리포즈</a></div></div><div class="navgrp"><a class="navtop" href="#technician" style="color:#38bdf8">테크니션</a><div class="navsub"><a href="#technician-a0">오토봇</a><a href="#technician-a1">센트리건</a><a href="#technician-a2">강화: 소이탄</a><a href="#technician-a3">강화: 폭발탄</a><a href="#technician-a4">오버차지</a><a class="pa" href="#technician-p0">테크니션 마스터리</a><a class="pa" href="#technician-p1">차지 배터리</a><a class="pa" href="#technician-p2">엔지니어링</a><a class="pa" href="#technician-p3">클러치</a></div></div><div class="navgrp"><a class="navtop" href="#marksman" style="color:#f87171">지정사수</a><div class="navsub"><a href="#marksman-a0">불렛 스피어</a><a href="#marksman-a1">헌터 마크</a><a href="#marksman-a2">타겟 락온</a><a href="#marksman-a3">스탠스</a><a href="#marksman-a4">익스큐션</a><a class="pa" href="#marksman-p0">지정사수 마스터리</a><a class="pa" href="#marksman-p1">데드아이</a><a class="pa" href="#marksman-p2">헤드헌터</a><a class="pa" href="#marksman-p3">래피드 파이어</a></div></div>
+</nav>
+
+<main>
+<h1>Outbreak Legion : The Class</h1>
+<p class="sub">병과 소개 · 스킬 상세 · 레벨 수치 · 데미지 계산</p>
+
+<div class="warn">
+<b>이 문서는 코드에서 자동으로 만들어집니다.</b>
+스킬 수치를 고치면 문서도 같이 바뀝니다 — 손으로 옮겨 적지 않으므로 게임과 표가 어긋나지 않습니다.<br>
+<b>레벨 수치 읽는 법 :</b> 표의 <b>레벨당</b> 이 1레벨 올릴 때마다 붙는 값입니다.
+<code>1레벨 값 + (레벨당 × (내 레벨 − 1))</code>
+</div>
+
+<section id="dmg"><h2 style="border-color:#a78bfa">
+<span style="color:#a78bfa">■</span> 데미지는 이렇게 계산됩니다</h2>
+<p class="tagline">총알이든 스킬이든 폭발이든, 전부 같은 4단계를 지납니다.</p>
+
+<div class="formula"><pre>최종 피해 = (기본값 + 더하기 보정)
+          × (1 + 퍼센트 보정을 전부 더한 값)
+          × 곱하기 보정들 (효율 · 헤드샷 · 치명타)
+          × 방어율로 깎이는 비율</pre></div>
+
+<table class="steps"><thead><tr><th>단계</th><th>무엇이 들어가나</th><th>알아둘 점</th></tr></thead><tbody>
+<tr><td><b>1. 더하기</b></td><td>기본 피해에 그냥 더해지는 값</td>
+    <td>이후 모든 퍼센트의 대상이 되므로 가장 먼저 더합니다.</td></tr>
+
+<tr><td><b>2. 퍼센트<br>(전부 더함)</b></td>
+    <td>전체 피해 증가<br>스킬 / 폭발 / 근접 피해 증가<br>무기 계열별 피해 증가<br>
+        대상에 걸린 표식<br>일반좀비 · 특수감염자 · 탱크/위치별 보정</td>
+    <td>여러 개가 붙어도 <b>더해서 한 번에</b> 곱합니다.
+        곱해서 쌓지 않으므로 보정을 여러 개 껴도 수치가 터지지 않습니다.<br>
+        <span class="dim">기관단총은 돌격소총과 별도 항목입니다.</span></td></tr>
+
+<tr><td><b>3. 곱하기</b></td>
+    <td>스킬 효율<br>헤드샷<br>치명타</td>
+    <td>이 셋은 서로 독립적으로 곱해집니다.<br>
+        <span class="dim">스킬 효율은 <b>스킬 피해</b>인 것만 받습니다.
+        헤드샷은 총으로 맞힌 것만 받습니다.</span></td></tr>
+
+<tr><td><b>4. 방어율</b></td><td>난이도에 따른 감염자 방어율</td>
+    <td>방어율 무시는 방어율을 <u>깎는 게 아니라 비율만큼 무시</u>합니다.<br>
+        <span class="dim">방어율 50 + 무시 50% → 실효 25.
+        100 피해가 50이 아니라 <b>75</b>가 들어갑니다.</span></td></tr>
+</tbody></table>
+
+<h3 class="sec">예시 1 — 레일 스트라이크 (스킬 + 폭발)</h3>
+<p class="intro">만렙 폭심지 하나가 탱크를 때립니다. 보정은 예시 값입니다.</p>
+<div class="formula"><pre>기본값                        250
+
+  전체 피해 증가             +10%
+  스킬 피해 증가             +30%   ← 스킬이므로
+  폭발 피해 증가             +20%   ← 폭발이기도 하므로 (둘 다 받음)
+  무기 계열                    —    무기와 무관한 스킬
+  표식                       +15%
+  대 탱크/위치               +25%
+                          ───────
+  퍼센트 합계               +100%   →  250 × 2.00 = 500
+
+  스킬 효율                  ×1.20   →  600
+  헤드샷                       —     총이 아니므로 없음
+  치명타                     ×1.50   →  900
+
+  방어율 50%, 무시 40%
+    실효 방어율 = 50 × (1 − 0.40) = 30
+                                    →  900 × 0.70 = 630
+
+최종 피해 630</pre></div>
+
+<h3 class="sec">예시 2 — 건호크 포드 (총기 피해)</h3>
+<p class="intro">같은 상황이라도 계산이 달라집니다. 포드는 <b>들고 있는 총의 원본 피해</b>에서 출발합니다.</p>
+<div class="formula"><pre>기본값       든 총의 한 발 피해 × 포드 비율 × 포드 개수
+             예) 소총 33 × 30% × 5기 = 49.5
+
+  전체 피해 증가             +10%
+  소총 피해 증가             +60%   ← 든 무기가 소총이므로
+  스킬 피해 증가               —    스킬 피해가 아니므로 <b>안 받음</b>
+  표식                       +15%
+  대 탱크/위치               +25%
+                          ───────
+  퍼센트 합계               +110%   →  49.5 × 2.10 = 104
+
+  스킬 효율                    —    스킬 피해가 아니므로 <b>안 받음</b>
+  치명타                     ×1.50   →  156
+
+  방어율 30%                        →  156 × 0.70 = 109
+
+최종 피해 109  (총을 바꾸면 이 값이 통째로 바뀝니다)</pre></div>
+
+<div class="box">각 스킬 카드의 <b>피해 계산</b> 칸이 그 스킬이 어느 보정을 받는지 알려줍니다.
+<b>스킬 피해</b>는 무기와 무관하고, <b>총기 피해</b>는 든 총을 따라갑니다.</div>
+
+<p class="intro">받는 쪽(생존자)은 규칙이 달라서, 받는 피해 감소만 적용되고
+완전 무적을 막으려고 <b>−80%에서 멈춥니다</b>.
+CT 필드의 "피해 1 고정"은 퍼센트로 만들 수 없어 따로 처리합니다.</p>
+</section>
+
+<section id="ranger"><h2 style="border-color:#ff7a3c"><span style="color:#ff7a3c">■</span> 레인저 <span class="en">Ranger</span></h2><p class="tagline">총을 든 본인이 화력입니다.</p><p class="intro">탄이 벽을 뚫고, 표적을 알아서 쫓고, 등 뒤에 뜬 포드가 방아쇠에 맞춰 같이 쏩니다. 스킬이 총을 대신하는 게 아니라 총을 더 강하게 만드는 쪽입니다.</p><div class="skill" id="ranger-a0"><div class="sk-head"><span class="badge">충전형</span><h4>레일 스트라이크 <span class="en">Rail Strike</span></h4></div><p class="sk-desc">조준선을 따라 붉은 레이저를 긋습니다. 벽을 관통합니다.<br>1.5초 뒤 레이저 경로가 시작점부터 순서대로 폭발합니다.</p><p class="sk-type">충전이 남아 있으면 쿨타임 없이 연달아 씁니다. 다 쓰면 재보급을 기다립니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>폭심지당 데미지</td><td class="c n">40</td><td class="c p">+4.29</td><td class="c n">250</td></tr><tr><td>재보급 시간</td><td class="c n">22초</td><td class="c p">-0.16</td><td class="c n">14초</td></tr><tr><td>충전 개수</td><td class="c n">2</td><td class="c p">+0.02</td><td class="c n">3</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>스킬 + 폭발 피해</b>로 처리됩니다.<br>적용되는 보정 : 스킬 피해 증가 · 폭발 피해 증가 · 스킬 효율 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">스킬이면서 폭발이라 둘 다 받습니다.</span></div><div class="box">연달아 쓸 때 최소 간격 <b>3초</b><br>기본 범위 <b>250.0</b></div></div><div class="skill" id="ranger-a1"><div class="sk-head"><span class="badge">액티브</span><h4>트레이스 불렛 <span class="en">Trace Bullet</span></h4></div><p class="sk-desc">표적을 쫓는 탄두를 발사합니다. 일반 감염자는 맞으면 즉사합니다.<br>1초마다 곡선을 그리며 다음 표적을 때리고, 표적이 없으면 사라집니다.</p><p class="sk-type">눌러서 씁니다. 쓰고 나면 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>명중당 데미지</td><td class="c n">40</td><td class="c p">+4.29</td><td class="c n">250</td></tr><tr><td>최대 명중</td><td class="c n">3</td><td class="c p">+0.18</td><td class="c n">12</td></tr><tr><td>쿨타임</td><td class="c n">30초</td><td class="c p">-0.24</td><td class="c n">18초</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>스킬 피해</b>로 처리됩니다.<br>적용되는 보정 : 스킬 피해 증가 · 스킬 효율 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">무기와 무관합니다. 어떤 총을 들고 있어도 값이 같습니다.</span></div><div class="box">기본 범위 <b>600.0</b></div></div><div class="skill" id="ranger-a2"><div class="sk-head"><span class="badge">액티브</span><h4>피어싱 불렛 <span class="en">Piercing Bullet</span></h4></div><p class="sk-desc">총알이 벽과 대상을 관통합니다. 데미지는 줄지 않습니다.<br>관통 중 감염자 방어율을 일정 비율 무시합니다. 시전 시 재장전합니다.</p><p class="sk-type">눌러서 씁니다. 쓰고 나면 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>관통 횟수</td><td class="c n">1</td><td class="c p">+0.04</td><td class="c n">3</td></tr><tr><td>방어율 무시</td><td class="c n">10</td><td class="c p">+0.82</td><td class="c n">50</td></tr><tr><td>지속시간</td><td class="c n">10초</td><td class="c p">+0</td><td class="c n">10초</td></tr><tr><td>쿨타임</td><td class="c n">60초</td><td class="c p">-0.51</td><td class="c n">35초</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>총기 피해</b>로 처리됩니다.<br>적용되는 보정 : 든 무기 계열의 피해 증가 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">들고 있는 총의 원본 피해에서 시작합니다. 총을 바꾸면 이 스킬의 세기도 같이 바뀝니다.</span></div><div class="box">쿨타임은 <b>효과가 끝난 뒤에</b> 돌기 시작합니다</div></div><div class="skill" id="ranger-a3"><div class="sk-head"><span class="badge">액티브</span><h4>건호크 <span class="en">Gunhawk</span></h4></div><p class="sk-desc">등 뒤에 무인 화기 포드 5기를 전개합니다.<br>사격할 때마다 포드 1기당 총알 데미지의 일정 비율을 더 줍니다.</p><p class="sk-type">눌러서 씁니다. 쓰고 나면 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>포드 1기당 총알 데미지의</td><td class="c n">11</td><td class="c p">+1</td><td class="c n">60</td></tr><tr><td>지속시간</td><td class="c n">6초</td><td class="c p">+0</td><td class="c n">6초</td></tr><tr><td>쿨타임</td><td class="c n">40초</td><td class="c p">-0.33</td><td class="c n">24초</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>스킬 + 총기 피해</b>로 처리됩니다.<br>적용되는 보정 : 스킬 피해 증가 · 든 무기 계열의 피해 증가 · 스킬 효율 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">들고 있는 총의 원본 피해에서 시작해, 스킬 보정과 총기 보정을 둘 다 받습니다. 총을 바꾸면 세기가 같이 바뀝니다.</span></div><div class="box">기본 범위 <b>90.0</b><br>쿨타임은 <b>효과가 끝난 뒤에</b> 돌기 시작합니다</div></div><div class="skill" id="ranger-a4"><div class="sk-head"><span class="badge">궁극</span><h4>제노사이드 <span class="en">Genocide</span></h4></div><p class="sk-desc">리미터를 해제합니다. 이동속도·돌격소총 데미지·연사속도가 오르고,<br>양 옆에 포드가 1기씩 늘어납니다. 포드 비율은 건호크 레벨을 따릅니다.</p><p class="sk-type">한 라운드에 한 번만 씁니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.20)</th></tr></thead><tbody><tr><td>데미지/연사 강화</td><td class="c n">15</td><td class="c p">+1.32</td><td class="c n">40</td></tr><tr><td>이동속도</td><td class="c n">25</td><td class="c p">+1.32</td><td class="c n">50</td></tr><tr><td>지속시간</td><td class="c n">10초</td><td class="c p">+0.32</td><td class="c n">16초</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>스킬 + 총기 피해</b>로 처리됩니다.<br>적용되는 보정 : 스킬 피해 증가 · 든 무기 계열의 피해 증가 · 스킬 효율 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">들고 있는 총의 원본 피해에서 시작해, 스킬 보정과 총기 보정을 둘 다 받습니다. 총을 바꾸면 세기가 같이 바뀝니다.</span></div><div class="box">기본 범위 <b>110.0</b></div></div><h3 class="sec">패시브</h3><div class="skill" id="ranger-p0"><div class="sk-head"><span class="badge">패시브</span><h4>레인저 마스터리 <span class="en">Ranger Mastery</span></h4></div><p class="sk-desc">돌격소총으로 주는 데미지가 증가합니다. 포드 사격에도 적용됩니다.<br>기관단총·산탄총·저격총에는 적용되지 않습니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>소총 데미지 증가</td><td class="c n">2%</td><td class="c p">+1.18</td><td class="c n">60%</td></tr></tbody></table></div><div class="skill" id="ranger-p1"><div class="sk-head"><span class="badge">패시브</span><h4>래피드 파이어 <span class="en">Rapid Fire</span></h4></div><p class="sk-desc">돌격소총의 연사속도가 빨라집니다.<br>기관단총·산탄총·저격총에는 적용되지 않습니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>소총 연사속도 증가</td><td class="c n">1%</td><td class="c p">+0.49</td><td class="c n">25%</td></tr></tbody></table></div><div class="skill" id="ranger-p2"><div class="sk-head"><span class="badge">패시브</span><h4>퀵 리로드 <span class="en">Quick Reload</span></h4></div><p class="sk-desc">모든 무기의 재장전 속도가 빨라집니다.<br>산탄총은 재장전 방식이 달라 적용되지 않습니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>재장전 속도 증가</td><td class="c n">2%</td><td class="c p">+0.78</td><td class="c n">40%</td></tr></tbody></table></div><div class="skill" id="ranger-p3"><div class="sk-head"><span class="badge">패시브</span><h4>컴뱃 센스 <span class="en">Combat Sense</span></h4></div><p class="sk-desc">치명타 확률과 치명타 데미지가 함께 증가합니다.<br>장비의 치명타 보정과 합산됩니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>치명타 확률 증가</td><td class="c n">0.5%</td><td class="c p">+0.5</td><td class="c n">25%</td></tr><tr><td>치명타 데미지 증가</td><td class="c n">0.8%</td><td class="c p">+0.8</td><td class="c n">40%</td></tr></tbody></table></div></section>
+<section id="lifeguard"><h2 style="border-color:#4ade80"><span style="color:#4ade80">■</span> 라이프가드 <span class="en">Lifeguard</span></h2><p class="tagline">팀을 살려두는 화력지원입니다.</p><p class="intro">치유 수단이 셋인데 쓰는 순간이 전부 다릅니다 — 지금 저 사람(큐어 불렛), 이 자리에 모인 사람들(나노 수류탄), 내가 신경 안 써도(힐링 드론). 나머지 둘은 아군을 죽지 않게 만드는 수단입니다.</p><div class="skill" id="lifeguard-a0"><div class="sk-head"><span class="badge">충전형</span><h4>큐어 불렛 <span class="en">Cure Bullet</span></h4></div><p class="sk-desc">바라보는 아군에게 치유탄을 날립니다. 적중하면 지속 회복이 걸립니다.<br>아군을 조준하지 않으면 시전되지 않습니다. 자신에게는 못 씁니다.</p><p class="sk-type">충전이 남아 있으면 쿨타임 없이 연달아 씁니다. 다 쓰면 재보급을 기다립니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>초당 회복</td><td class="c n">3</td><td class="c p">+0.24</td><td class="c n">15</td></tr><tr><td>착탄 즉시 회복</td><td class="c n">8</td><td class="c p">+0.41</td><td class="c n">28</td></tr><tr><td>지속시간</td><td class="c n">3초</td><td class="c p">+0.1</td><td class="c n">8초</td></tr><tr><td>재보급 시간</td><td class="c n">9초</td><td class="c p">-0.08</td><td class="c n">5초</td></tr><tr><td>충전 개수</td><td class="c n">3</td><td class="c p">+0</td><td class="c n">3</td></tr></tbody></table><div class="box dimbox">피해를 주지 않는 스킬입니다 (회복 · 강화 · 제어).</div><div class="box">연달아 쓸 때 최소 간격 <b>0.6초</b></div></div><div class="skill" id="lifeguard-a1"><div class="sk-head"><span class="badge">액티브</span><h4>나노 수류탄 <span class="en">Nano Grenade</span></h4></div><p class="sk-desc">나노머신 수류탄을 던집니다. 안개 안의 아군은 회복하고 감염자는 피해를 입습니다.<br>던진 자리에 남습니다. 시전자를 따라오지 않습니다.</p><p class="sk-type">눌러서 씁니다. 쓰고 나면 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>틱당 회복</td><td class="c n">4</td><td class="c p">+0.24</td><td class="c n">16</td></tr><tr><td>틱당 피해</td><td class="c n">6</td><td class="c p">+0.78</td><td class="c n">44</td></tr><tr><td>반경</td><td class="c n">200</td><td class="c p">+5.1</td><td class="c n">450</td></tr><tr><td>지속시간</td><td class="c n">5초</td><td class="c p">+0.2</td><td class="c n">15초</td></tr><tr><td>쿨타임</td><td class="c n">34초</td><td class="c p">-0.29</td><td class="c n">20초</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>스킬 피해</b>로 처리됩니다.<br>적용되는 보정 : 스킬 피해 증가 · 스킬 효율 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">무기와 무관합니다. 어떤 총을 들고 있어도 값이 같습니다.</span></div><div class="box">기본 범위 <b>450.0</b><br>쿨타임은 <b>효과가 끝난 뒤에</b> 돌기 시작합니다</div></div><div class="skill" id="lifeguard-a2"><div class="sk-head"><span class="badge">액티브</span><h4>라이트닝건 <span class="en">Lightning Gun</span></h4></div><p class="sk-desc">지속시간 동안 총알이 파란 전격이 됩니다. 맞은 감염자에서 주변으로 튑니다.<br>레벨이 오르면 튀는 횟수가 늘어납니다.</p><p class="sk-type">눌러서 씁니다. 쓰고 나면 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>전격 피해</td><td class="c n">18</td><td class="c p">+1.27</td><td class="c n">80</td></tr><tr><td>튀는 횟수</td><td class="c n">1</td><td class="c p">+0.04</td><td class="c n">3</td></tr><tr><td>지속시간</td><td class="c n">5초</td><td class="c p">+0.31</td><td class="c n">20초</td></tr><tr><td>쿨타임</td><td class="c n">30초</td><td class="c p">-0.24</td><td class="c n">18초</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>스킬 피해</b>로 처리됩니다.<br>적용되는 보정 : 스킬 피해 증가 · 스킬 효율 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">무기와 무관합니다. 어떤 총을 들고 있어도 값이 같습니다.</span></div><div class="box">기본 범위 <b>380.0</b><br>쿨타임은 <b>효과가 끝난 뒤에</b> 돌기 시작합니다</div></div><div class="skill" id="lifeguard-a3"><div class="sk-head"><span class="badge">액티브</span><h4>힐링 드론 <span class="en">Healing Drone</span></h4></div><p class="sk-desc">어깨 위에 치유 드론을 띄웁니다. 주변 아군을 알아서 치료합니다.<br>자신을 포함해 체력이 가장 낮은 사람부터 봅니다. 지속이 끝나면 회수됩니다.</p><p class="sk-type">눌러서 씁니다. 쓰고 나면 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>힐빔당 회복</td><td class="c n">5</td><td class="c p">+0.51</td><td class="c n">30</td></tr><tr><td>지속시간</td><td class="c n">12초</td><td class="c p">+0.37</td><td class="c n">30초</td></tr><tr><td>쿨타임</td><td class="c n">24초</td><td class="c p">-0.18</td><td class="c n">15초</td></tr></tbody></table><div class="box dimbox">피해를 주지 않는 스킬입니다 (회복 · 강화 · 제어).</div><div class="box">기본 범위 <b>400.0</b><br>쿨타임은 <b>효과가 끝난 뒤에</b> 돌기 시작합니다</div></div><div class="skill" id="lifeguard-a4"><div class="sk-head"><span class="badge">궁극</span><h4>CT 필드 <span class="en">CT Field</span></h4></div><p class="sk-desc">보호막을 전개합니다. 안에 있는 아군은 어떤 피해도 1 만 받습니다.<br>안에 들어온 감염자는 크게 느려지고, 일반 감염자는 그 자리에서 죽습니다.</p><p class="sk-type">한 라운드에 한 번만 씁니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.20)</th></tr></thead><tbody><tr><td>반경</td><td class="c n">300</td><td class="c p">+15.79</td><td class="c n">600</td></tr><tr><td>감염자 감속</td><td class="c n">50</td><td class="c p">+2.11</td><td class="c n">90</td></tr><tr><td>지속시간</td><td class="c n">5초</td><td class="c p">+0.53</td><td class="c n">15초</td></tr></tbody></table><div class="box dimbox">피해를 주지 않는 스킬입니다 (회복 · 강화 · 제어).</div></div><h3 class="sec">패시브</h3><div class="skill" id="lifeguard-p0"><div class="sk-head"><span class="badge">패시브</span><h4>라이프가드 마스터리 <span class="en">Lifeguard Mastery</span></h4></div><p class="sk-desc">자신이 주는 모든 회복량이 증가합니다.<br>큐어 불렛·나노 수류탄·드론에 전부 적용됩니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>회복량 증가</td><td class="c n">1%</td><td class="c p">+1</td><td class="c n">50%</td></tr></tbody></table></div><div class="skill" id="lifeguard-p1"><div class="sk-head"><span class="badge">패시브</span><h4>기관단총 마스터리 <span class="en">SMG Mastery</span></h4></div><p class="sk-desc">기관단총 피해가 크게 증가합니다.<br>라이프가드가 스스로 쏠 수 있는 유일한 화력입니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>기관단총 데미지 증가</td><td class="c n">2%</td><td class="c p">+2</td><td class="c n">100%</td></tr></tbody></table></div><div class="skill" id="lifeguard-p2"><div class="sk-head"><span class="badge">패시브</span><h4>안티도트 <span class="en">Antidote</span></h4></div><p class="sk-desc">감염자에게 받는 피해가 감소하고, 체력이 저절로 회복됩니다.<br>레벨이 오르면 회복이 잦아지고 양도 늘어납니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>받는 데미지 감소</td><td class="c n">0.6%</td><td class="c p">+0.6</td><td class="c n">30%</td></tr></tbody></table></div><div class="skill" id="lifeguard-p3"><div class="sk-head"><span class="badge">패시브</span><h4>리포즈 <span class="en">Repose</span></h4></div><p class="sk-desc">스킬 효율이 오르고 쿨타임이 짧아집니다.<br>지속시간과 스킬 피해가 함께 늘어납니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>스킬 효율 증가</td><td class="c n">0.4%</td><td class="c p">+0.4</td><td class="c n">20%</td></tr><tr><td>스킬 쿨타임 감소</td><td class="c n">0.3%</td><td class="c p">+0.3</td><td class="c n">15%</td></tr></tbody></table></div></section>
+<section id="technician"><h2 style="border-color:#38bdf8"><span style="color:#38bdf8">■</span> 테크니션 <span class="en">Technician</span></h2><p class="tagline">내가 안 쏩니다.</p><p class="intro">스스로 싸우는 기계를 깔고, 그 기계에 좋은 탄을 물리고, 급할 때는 기계를 부숴 자기를 살립니다. 액티브 넷이 서로를 필요로 합니다 — 기체가 없으면 강화탄도 궁극도 아무 일을 안 합니다.</p><div class="skill" id="technician-a0"><div class="sk-head"><span class="badge">액티브</span><h4>오토봇 <span class="en">Autobot</span></h4></div><p class="sk-desc">스스로 싸우는 부유 총기를 소환합니다. 25렙에 2기, 50렙에 3기가 됩니다.<br>주인을 따라다니며 주변 감염자를 알아서 쏩니다.</p><p class="sk-type">눌러서 씁니다. 쓰고 나면 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>발당 데미지</td><td class="c n">15</td><td class="c p">+1.02</td><td class="c n">65</td></tr><tr><td>발사 간격</td><td class="c n">2</td><td class="c p">+-0.02</td><td class="c n">1</td></tr><tr><td>지속시간</td><td class="c n">62초</td><td class="c p">+2</td><td class="c n">160초</td></tr><tr><td>쿨타임</td><td class="c n">101초</td><td class="c p">1</td><td class="c n">150초</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>스킬 피해</b>로 처리됩니다.<br>적용되는 보정 : 스킬 피해 증가 · 스킬 효율 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">무기와 무관합니다. 어떤 총을 들고 있어도 값이 같습니다.</span></div><div class="box">기본 범위 <b>1250.0</b><br>쿨타임은 <b>효과가 끝난 뒤에</b> 돌기 시작합니다</div></div><div class="skill" id="technician-a1"><div class="sk-head"><span class="badge">액티브</span><h4>센트리건 <span class="en">Sentry Gun</span></h4></div><p class="sk-desc">자동 사격 미니건을 1기 설치합니다. E 로 들어서 옮길 수 있습니다.<br>들고 있는 동안에는 사격하지 않습니다. 레벨에 따라 세지고 빨라집니다.</p><p class="sk-type">눌러서 씁니다. 쓰고 나면 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>발당 데미지</td><td class="c n">5</td><td class="c p">+0.71</td><td class="c n">40</td></tr><tr><td>발사 간격</td><td class="c n">0.5</td><td class="c p">+-0.01</td><td class="c n">0.15</td></tr><tr><td>지속시간</td><td class="c n">62초</td><td class="c p">+2</td><td class="c n">160초</td></tr><tr><td>쿨타임</td><td class="c n">101초</td><td class="c p">1</td><td class="c n">150초</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>스킬 피해</b>로 처리됩니다.<br>적용되는 보정 : 스킬 피해 증가 · 스킬 효율 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">무기와 무관합니다. 어떤 총을 들고 있어도 값이 같습니다.</span></div><div class="box">기본 범위 <b>1750.0</b><br>쿨타임은 <b>효과가 끝난 뒤에</b> 돌기 시작합니다</div></div><div class="skill" id="technician-a2"><div class="sk-head"><span class="badge">액티브</span><h4>강화: 소이탄 <span class="en">Upgrade: Incendiary</span></h4></div><p class="sk-desc">오토봇과 센트리건에 소이탄을 물립니다. 기체가 붉게 달아오릅니다.<br>기체가 하나도 없으면 걸리지 않습니다.</p><p class="sk-type">눌러서 씁니다. 쓰고 나면 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>데미지 증가</td><td class="c n">5</td><td class="c p">+0.51</td><td class="c n">30</td></tr><tr><td>지속시간</td><td class="c n">5초</td><td class="c p">+0.26</td><td class="c n">17.5초</td></tr><tr><td>쿨타임</td><td class="c n">26초</td><td class="c p">1</td><td class="c n">75초</td></tr></tbody></table><div class="box dimbox">피해를 주지 않는 스킬입니다 (회복 · 강화 · 제어).</div><div class="box">쿨타임은 <b>효과가 끝난 뒤에</b> 돌기 시작합니다</div></div><div class="skill" id="technician-a3"><div class="sk-head"><span class="badge">액티브</span><h4>강화: 폭발탄 <span class="en">Upgrade: Explosive</span></h4></div><p class="sk-desc">오토봇과 센트리건에 폭발탄을 물립니다. 기체가 노랗게 빛납니다.<br>소이탄이 걸려 있으면 밀어내고 대신 들어갑니다.</p><p class="sk-type">눌러서 씁니다. 쓰고 나면 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>데미지 증가</td><td class="c n">10</td><td class="c p">+0.71</td><td class="c n">45</td></tr><tr><td>지속시간</td><td class="c n">5초</td><td class="c p">+0.26</td><td class="c n">17.5초</td></tr><tr><td>쿨타임</td><td class="c n">52초</td><td class="c p">2</td><td class="c n">150초</td></tr></tbody></table><div class="box dimbox">피해를 주지 않는 스킬입니다 (회복 · 강화 · 제어).</div><div class="box">쿨타임은 <b>효과가 끝난 뒤에</b> 돌기 시작합니다</div></div><div class="skill" id="technician-a4"><div class="sk-head"><span class="badge">궁극</span><h4>오버차지 <span class="en">Overcharge</span></h4></div><p class="sk-desc">모든 기체를 한계까지 돌립니다. 스킬 효율과 기체 사거리가 오릅니다.<br>지속 중에는 다른 스킬을 못 쓰고, 끝나면 모든 기체가 소진됩니다.</p><p class="sk-type">한 라운드에 한 번만 씁니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.20)</th></tr></thead><tbody><tr><td>스킬 효율</td><td class="c n">30</td><td class="c p">+1.58</td><td class="c n">60</td></tr><tr><td>지속시간</td><td class="c n">15초</td><td class="c p">+0.53</td><td class="c n">25초</td></tr></tbody></table><div class="box dimbox">피해를 주지 않는 스킬입니다 (회복 · 강화 · 제어).</div></div><h3 class="sec">패시브</h3><div class="skill" id="technician-p0"><div class="sk-head"><span class="badge">패시브</span><h4>테크니션 마스터리 <span class="en">Technician Mastery</span></h4></div><p class="sk-desc">스킬로 주는 피해가 증가합니다.<br>오토봇·센트리건의 사격에 그대로 적용됩니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>스킬 데미지 증가</td><td class="c n">1%</td><td class="c p">+0.59</td><td class="c n">30%</td></tr></tbody></table></div><div class="skill" id="technician-p1"><div class="sk-head"><span class="badge">패시브</span><h4>차지 배터리 <span class="en">Charge Battery</span></h4></div><p class="sk-desc">모든 스킬의 지속시간이 증가합니다.<br>기체가 오래 남고 강화탄도 그만큼 길어집니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>지속시간 증가</td><td class="c n">1%</td><td class="c p">+0.59</td><td class="c n">30%</td></tr></tbody></table></div><div class="skill" id="technician-p2"><div class="sk-head"><span class="badge">패시브</span><h4>엔지니어링 <span class="en">Engineering</span></h4></div><p class="sk-desc">모든 스킬의 쿨타임이 감소합니다.<br>기체를 더 자주 갈아 끼울 수 있게 됩니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>스킬 쿨타임 감소</td><td class="c n">0.5%</td><td class="c p">+0.5</td><td class="c n">25%</td></tr></tbody></table></div><div class="skill" id="technician-p3"><div class="sk-head"><span class="badge">패시브</span><h4>클러치 <span class="en">Clutch</span></h4></div><p class="sk-desc">쓰러졌을 때 기체 하나를 터뜨려 스스로 일어납니다.<br>기체가 없으면 오토봇이나 센트리건의 쿨타임을 대신 소모합니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>발동 확률</td><td class="c n">10</td><td class="c p">+1.02</td><td class="c n">60</td></tr></tbody></table></div></section>
+<section id="marksman"><h2 style="border-color:#f87171"><span style="color:#f87171">■</span> 지정사수 <span class="en">Marksman</span></h2><p class="tagline">한 발이 무겁습니다.</p><p class="intro">표식을 걸고, 자세를 잡고, 그 한 발에 전부를 겁니다. 연사로 채우는 병과가 아니라 &quot;언제 쏘는가&quot;를 고르는 병과입니다.</p><div class="skill" id="marksman-a0"><div class="sk-head"><span class="badge">충전형</span><h4>불렛 스피어 <span class="en">Bullet Spear</span></h4></div><p class="sk-desc">조준선을 따라 노란 빔을 쏩니다. 궤도에 걸린 모든 대상이 맞습니다.<br>지정사수의 유일한 광역기입니다.</p><p class="sk-type">충전이 남아 있으면 쿨타임 없이 연달아 씁니다. 다 쓰면 재보급을 기다립니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>궤도 피해</td><td class="c n">60</td><td class="c p">+6.94</td><td class="c n">400</td></tr><tr><td>재보급 시간</td><td class="c n">20초</td><td class="c p">-0.16</td><td class="c n">12초</td></tr><tr><td>충전 개수</td><td class="c n">1</td><td class="c p">+0.04</td><td class="c n">3</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>스킬 피해</b>로 처리됩니다.<br>적용되는 보정 : 스킬 피해 증가 · 스킬 효율 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">무기와 무관합니다. 어떤 총을 들고 있어도 값이 같습니다.</span></div><div class="box">연달아 쓸 때 최소 간격 <b>1초</b><br>기본 범위 <b>200.0</b></div></div><div class="skill" id="marksman-a1"><div class="sk-head"><span class="badge">액티브</span><h4>헌터 마크 <span class="en">Hunter Mark</span></h4></div><p class="sk-desc">다음에 명중한 특수감염자에 표식을 남기고 피해를 줍니다.<br>표식된 대상은 팀 전체에게 더 아프게 맞습니다. 일반 감염자는 표식되지 않습니다.</p><p class="sk-type">눌러서 씁니다. 쓰고 나면 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>명중 피해</td><td class="c n">120</td><td class="c p">+11.02</td><td class="c n">660</td></tr><tr><td>모두에게서 받는 피해</td><td class="c n">3</td><td class="c p">+0.14</td><td class="c n">10</td></tr><tr><td>시전자에게서 추가로</td><td class="c n">6</td><td class="c p">+0.29</td><td class="c n">20</td></tr><tr><td>지속시간</td><td class="c n">10초</td><td class="c p">+0.2</td><td class="c n">20초</td></tr><tr><td>쿨타임</td><td class="c n">30초</td><td class="c p">-0.24</td><td class="c n">18초</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>스킬 + 총기 피해</b>로 처리됩니다.<br>적용되는 보정 : 스킬 피해 증가 · 든 무기 계열의 피해 증가 · 스킬 효율 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">들고 있는 총의 원본 피해에서 시작해, 스킬 보정과 총기 보정을 둘 다 받습니다. 총을 바꾸면 세기가 같이 바뀝니다.</span></div></div><div class="skill" id="marksman-a2"><div class="sk-head"><span class="badge">액티브</span><h4>타겟 락온 <span class="en">Target Lock-On</span></h4></div><p class="sk-desc">다음에 명중한 특수감염자를 하늘의 저격조가 조준합니다.<br>3초 뒤 관통 예광탄이 날아옵니다. 일반 감염자에게는 걸리지 않습니다.</p><p class="sk-type">눌러서 씁니다. 쓰고 나면 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>발당 피해</td><td class="c n">150</td><td class="c p">+15.31</td><td class="c n">900</td></tr><tr><td>발수</td><td class="c n">1</td><td class="c p">+0.04</td><td class="c n">3</td></tr><tr><td>쿨타임</td><td class="c n">35초</td><td class="c p">-0.31</td><td class="c n">20초</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>스킬 + 총기 피해</b>로 처리됩니다.<br>적용되는 보정 : 스킬 피해 증가 · 든 무기 계열의 피해 증가 · 스킬 효율 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">들고 있는 총의 원본 피해에서 시작해, 스킬 보정과 총기 보정을 둘 다 받습니다. 총을 바꾸면 세기가 같이 바뀝니다.</span></div></div><div class="skill" id="marksman-a3"><div class="sk-head"><span class="badge">토글</span><h4>스탠스 <span class="en">Stance</span></h4></div><p class="sk-desc">자세를 잡습니다. 이동속도가 절반이 되는 대신 사격이 무거워집니다.<br>멈춰 있으면 전부, 움직이면 절반만 적용됩니다. 다시 눌러 해제합니다.</p><p class="sk-type">켜고 끕니다. 끌 때 쿨타임이 돕니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>저격총 데미지</td><td class="c n">10</td><td class="c p">+1.84</td><td class="c n">100</td></tr><tr><td>치명타 확률</td><td class="c n">3</td><td class="c p">+0.45</td><td class="c n">25</td></tr><tr><td>헤드샷 피해</td><td class="c n">3</td><td class="c p">+0.45</td><td class="c n">25</td></tr><tr><td>쿨타임</td><td class="c n">9.9초</td><td class="c p">-0.1</td><td class="c n">5초</td></tr></tbody></table><div class="box dimbox">피해를 주지 않는 스킬입니다 (회복 · 강화 · 제어).</div></div><div class="skill" id="marksman-a4"><div class="sk-head"><span class="badge">궁극</span><h4>익스큐션 <span class="en">Execution</span></h4></div><p class="sk-desc">재장전 뒤 첫 발에 모든 것을 겁니다. 착탄 3초 뒤 대폭발이 일어납니다.<br>반드시 헤드샷·치명타로 처리됩니다. 빗맞히면 그대로 사라집니다.</p><p class="sk-type">한 라운드에 한 번만 씁니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.20)</th></tr></thead><tbody><tr><td>폭발 배수</td><td class="c n">5</td><td class="c p">+0.53</td><td class="c n">15</td></tr></tbody></table><div class="box"><b>피해 계산</b> — <b>스킬 + 총기 피해</b>로 처리됩니다.<br>적용되는 보정 : 스킬 피해 증가 · 든 무기 계열의 피해 증가 · 스킬 효율 · 표식 · 대상 종류별 보정 · 치명타<br><span class="dim">들고 있는 총의 원본 피해에서 시작해, 스킬 보정과 총기 보정을 둘 다 받습니다. 총을 바꾸면 세기가 같이 바뀝니다.</span></div><div class="box">기본 범위 <b>350.0</b></div></div><h3 class="sec">패시브</h3><div class="skill" id="marksman-p0"><div class="sk-head"><span class="badge">패시브</span><h4>지정사수 마스터리 <span class="en">Marksman Mastery</span></h4></div><p class="sk-desc">저격소총으로 주는 피해가 증가하고 재장전이 빨라집니다.<br>다른 무기 계열에는 적용되지 않습니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>저격총 데미지 증가</td><td class="c n">2%</td><td class="c p">+2</td><td class="c n">100%</td></tr><tr><td>저격총 재장전 증가</td><td class="c n">1%</td><td class="c p">+1</td><td class="c n">50%</td></tr></tbody></table></div><div class="skill" id="marksman-p1"><div class="sk-head"><span class="badge">패시브</span><h4>데드아이 <span class="en">Deadeye</span></h4></div><p class="sk-desc">치명타 확률과 치명타 피해가 함께 증가합니다.<br>무기를 가리지 않습니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>치명타 확률 증가</td><td class="c n">0.5%</td><td class="c p">+0.5</td><td class="c n">25%</td></tr><tr><td>치명타 데미지 증가</td><td class="c n">0.8%</td><td class="c p">+0.8</td><td class="c n">40%</td></tr></tbody></table></div><div class="skill" id="marksman-p2"><div class="sk-head"><span class="badge">패시브</span><h4>헤드헌터 <span class="en">Headhunter</span></h4></div><p class="sk-desc">저격소총 헤드샷의 피해 배율이 증가합니다.<br>다른 무기 계열의 헤드샷에는 적용되지 않습니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>저격총 헤드샷 증가</td><td class="c n">1%</td><td class="c p">+1</td><td class="c n">50%</td></tr></tbody></table></div><div class="skill" id="marksman-p3"><div class="sk-head"><span class="badge">패시브</span><h4>래피드 파이어 <span class="en">Rapid Fire</span></h4></div><p class="sk-desc">저격소총의 연사속도가 빨라집니다.<br>볼트를 당기는 시간이 줄어듭니다.</p><p class="sk-type">배워두면 항상 적용됩니다. 따로 누를 것이 없습니다.</p><table class="lv"><thead><tr><th>항목</th><th>1레벨</th><th>레벨당</th><th>만렙 (Lv.50)</th></tr></thead><tbody><tr><td>저격총 연사 증가</td><td class="c n">0.6%</td><td class="c p">+0.6</td><td class="c n">30%</td></tr></tbody></table></div></section>
+
+<footer>생성 2026-09-06 10:00 · 스킬 36개 · Outbreak Legion : The Class</footer>
+</main>
+</div></body></html>
