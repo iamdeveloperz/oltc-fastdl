@@ -1,8 +1,22 @@
 # OL:TC FastDL
 
-Left 4 Dead 2 서버가 배포하는 커스텀 파일입니다.
-게임 폴더와 **같은 구조**로 두었기 때문에, 이 저장소의 Pages 주소를
-그대로 `sv_downloadurl` 에 넣으면 됩니다.
+Left 4 Dead 2 서버가 배포하는 커스텀 파일과, **서버 안내 페이지**입니다.
+
+- `index.html` — 사이트 첫 화면. 인게임 **MOTD** 로 띄우는 표지입니다.
+- `OutbreakLegion_TheClass.html` — 병과 · 스킬 · 레벨 수치 전체 안내서입니다.
+
+★ **두 HTML 은 손으로 고치지 마세요.** 플러그인 등록부에서 자동 생성됩니다.
+고치는 곳은 `scripting/OutbreakLegion_TheClass/tools/` 의 생성기입니다.
+
+```
+python tools/gen_motd.py        -> index.html
+python tools/gen_class_doc.py   -> OutbreakLegion_TheClass.html
+```
+
+## FastDL
+
+커스텀 파일은 게임 폴더와 **같은 구조**로 두었기 때문에, 이 저장소의 Pages
+주소를 그대로 `sv_downloadurl` 에 넣으면 됩니다.
 
 ```
 sv_allowdownload 1

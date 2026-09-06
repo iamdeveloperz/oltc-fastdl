@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Outbreak Legion : The Class</title>
+<style>
+/* ==========================================================================
+   ★ 이 파일은 인게임 MOTD 패널에서 뜬다 — 브라우저가 아니다.
+
+   그래서 안내서(doc_template.html)와 규칙이 다르다. 고칠 때 지킬 것 :
+
+     · CSS 변수(var) 금지        패널 엔진이 구버전이면 색이 통째로 날아간다
+     · flex / grid 금지          단일 컬럼과 <table> 로만 짠다
+     · 외부 폰트 / 이미지 / JS 금지   패널은 외부를 못 받거나 느리다
+     · 폭은 좁다고 가정          패널 실폭이 600px 아래로 내려가는 해상도가 있다
+
+   색을 직접 적어둔 이유가 이것이다. 변수로 묶으면 읽기는 좋아지지만
+   구버전 패널에서 글자와 배경이 같은 색이 되어 아무것도 안 보인다.
+   ========================================================================== */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#0f1115;color:#e6e8ec;
+ font:14px/1.75 "Pretendard","Malgun Gothic","맑은 고딕",sans-serif}
+a{color:#7fc6f5;text-decoration:none}
+a:hover{text-decoration:underline}
+
+.wrap{max-width:860px;margin:0 auto;padding:26px 20px 60px;word-break:keep-all}
+
+/* ---- 표지 ---- */
+.hero{border:1px solid #2a2f3a;border-radius:12px;background:#171a21;
+ padding:26px 26px 22px;margin:0 0 22px}
+.hero h1{margin:0;font-size:26px;letter-spacing:-.01em}
+.hero .en{display:block;color:#8b93a1;font-size:11.5px;font-weight:400;
+ letter-spacing:.16em;margin-bottom:7px}
+.hero .tag{margin:10px 0 0;font-size:15px;font-weight:600;color:#ffd479}
+.hero .lead{margin:12px 0 0;color:#b9c0cc}
+
+.stats{width:100%;border-collapse:collapse;margin:20px 0 0;
+ border-top:1px solid #2a2f3a}
+.stats td{padding:12px 6px 0;text-align:center;vertical-align:top;width:25%}
+.stats .v{display:block;color:#ffd479;font-size:21px;font-weight:700;
+ line-height:1.25}
+.stats .k{display:block;color:#8b93a1;font-size:11.5px}
+
+/* ---- 절 ---- */
+section{border:1px solid #2a2f3a;border-radius:12px;background:#171a21;
+ padding:22px 24px;margin:0 0 18px}
+h2{font-size:18px;margin:0 0 14px;padding-left:11px;border-left:4px solid #a78bfa}
+h2 .en{color:#8b93a1;font-size:11px;font-weight:400;letter-spacing:.1em}
+p{margin:0 0 11px}
+p:last-child{margin-bottom:0}
+.dim{color:#8b93a1}
+
+/* ---- 시작 안내 ---- */
+table.steps{width:100%;border-collapse:collapse;font-size:13.5px}
+table.steps td{padding:10px 10px;border-bottom:1px solid #1e222b;
+ vertical-align:top}
+table.steps tr:last-child td{border-bottom:none}
+table.steps td.k{width:112px;white-space:nowrap;color:#ffd479;font-weight:600}
+.key{display:inline-block;background:#232936;border:1px solid #39414f;
+ border-radius:5px;padding:1px 8px;color:#e6e8ec;font-size:12px;font-weight:600}
+
+/* ---- 병과 카드 (단일 컬럼) ---- */
+.cls{border:1px solid #2a2f3a;border-left-width:4px;border-radius:8px;
+ background:#12151b;padding:16px 18px;margin:0 0 12px}
+.cls:last-child{margin-bottom:0}
+.cls h3{margin:0;font-size:16.5px}
+.cls h3 .en{color:#8b93a1;font-size:11px;font-weight:400;margin-left:6px}
+.cls .tag{margin:4px 0 8px;font-size:13.5px;font-weight:600}
+.cls .intro{margin:0 0 12px;color:#b9c0cc;font-size:13px}
+.cls .kit{margin:0;color:#8b93a1;font-size:12px}
+
+/* ---- 표 ---- */
+table.dmg{width:100%;border-collapse:collapse;font-size:12.5px}
+table.dmg th{background:#1b2029;color:#8b93a1;font-weight:600;text-align:left;
+ padding:8px 9px;border-bottom:1px solid #2a2f3a;white-space:nowrap}
+table.dmg td{padding:8px 9px;border-bottom:1px solid #1e222b;vertical-align:top}
+table.dmg tr:last-child td{border-bottom:none}
+table.dmg td.n{color:#ffd479;font-weight:700;text-align:right;white-space:nowrap;
+ line-height:1.5}
+/* ★ 여기서 nowrap 을 쓰면 안 된다. "스킬 + 총기 피해" 같은 칸이 안 접혀서
+   폭 600px 아래 패널에서 표가 옆으로 삐져나간다. 숫자만 안 접는다. */
+table.dmg td.c{color:#8b93a1}
+table.dmg .lbl{display:block;font-size:11px;font-weight:400;color:#8b93a1}
+/* 병과 구분줄 — 표 안에서 그룹을 가른다 (colspan 한 줄이라 폭을 안 먹는다) */
+table.dmg td.grp{background:#1b2029;font-weight:700;font-size:12.5px;
+ padding-top:9px;padding-bottom:9px;border-bottom:1px solid #2a2f3a}
+
+.note{background:#171d27;border-left:3px solid #3a4657;border-radius:0 6px 6px 0;
+ padding:11px 14px;margin:14px 0 0;font-size:12.5px;color:#b9c0cc}
+.note b{color:#ffd479}
+
+/* ---- 계산 4단계 ---- */
+ol.calc{margin:0;padding-left:20px;font-size:13.5px}
+ol.calc li{margin-bottom:9px}
+ol.calc li:last-child{margin-bottom:0}
+ol.calc b{color:#ffd479}
+
+.more{text-align:center;padding:20px 24px}
+.more a{display:inline-block;border:1px solid #3a4657;border-radius:8px;
+ background:#1b2029;color:#e6e8ec;padding:11px 22px;font-weight:600}
+.more a:hover{border-color:#ffd479;color:#ffd479;text-decoration:none}
+.more p{margin:10px 0 0;font-size:12px;color:#8b93a1}
+
+footer{color:#8b93a1;font-size:11.5px;text-align:center;margin-top:26px;
+ line-height:1.9}
+</style></head><body>
+<div class="wrap">
+
+<div class="hero">
+  <h1><span class="en">OUTBREAK LEGION</span>The Class</h1>
+  <p class="tag">좀비를 쏘는 게 아니라, 병과를 고르고 스킬로 싸웁니다.</p>
+  <p class="lead">평범한 캠페인 위에 병과와 스킬을 얹은 서버입니다. 생존자 넷이 같은 총으로 같은 싸움을 하는 대신, 각자 다른 역할을 맡습니다.</p>
+  <table class="stats"><tr><td><span class="v">4</span><span class="k">병과</span></td><td><span class="v">36</span><span class="k">스킬</span></td><td><span class="v">4</span><span class="k">궁극기</span></td><td><span class="v">5</span><span class="k">스킬 슬롯</span></td></tr></table>
+</div>
+
+<section>
+  <h2>어떻게 시작하나요</h2>
+  <table class="steps">
+    <tr><td class="k">1. 전직</td>
+        <td>병과를 고릅니다. 고른 병과의 스킬만 쓸 수 있습니다.</td></tr>
+    <tr><td class="k">2. 스킬 패널</td>
+        <td><span class="key">Shift</span> 를 누르면 내 액티브 스킬 5칸이 뜹니다.
+            한 번 더 누르면 쿨타임·충전이 갱신됩니다.</td></tr>
+    <tr><td class="k">3. 발동</td>
+        <td>패널이 떠 있는 동안 <span class="key">1</span> ~ <span class="key">5</span>
+            로 그 칸의 스킬을 씁니다. <span class="key">0</span> 은 닫기입니다.
+            <span class="dim">빈 칸도 자리를 지키므로 3번은 언제나 3번입니다.</span></td></tr>
+    <tr><td class="k">4. 성장</td>
+        <td>감염자를 잡으면 경험치가 들어옵니다.
+            스킬은 레벨을 올릴수록 세지고, 쿨타임은 짧아집니다.</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>병과 <span class="en">CLASSES</span></h2>
+  <div class="cls" style="border-left-color:#ff7a3c"><h3 style="color:#ff7a3c">레인저<span class="en">Ranger</span></h3><p class="tag" style="color:#ff7a3c">총을 든 본인이 화력입니다.</p><p class="intro">탄이 벽을 뚫고, 표적을 알아서 쫓고, 등 뒤에 뜬 포드가 방아쇠에 맞춰 같이 쏩니다. 스킬이 총을 대신하는 게 아니라 총을 더 강하게 만드는 쪽입니다.</p><p class="kit">액티브 4 · 궁극 1 · 패시브 4</p></div>
+<div class="cls" style="border-left-color:#4ade80"><h3 style="color:#4ade80">라이프가드<span class="en">Lifeguard</span></h3><p class="tag" style="color:#4ade80">팀을 살려두는 화력지원입니다.</p><p class="intro">치유 수단이 셋인데 쓰는 순간이 전부 다릅니다 — 지금 저 사람(큐어 불렛), 이 자리에 모인 사람들(나노 수류탄), 내가 신경 안 써도(힐링 드론). 나머지 둘은 아군을 죽지 않게 만드는 수단입니다.</p><p class="kit">액티브 4 · 궁극 1 · 패시브 4</p></div>
+<div class="cls" style="border-left-color:#38bdf8"><h3 style="color:#38bdf8">테크니션<span class="en">Technician</span></h3><p class="tag" style="color:#38bdf8">내가 안 쏩니다.</p><p class="intro">스스로 싸우는 기계를 깔고, 그 기계에 좋은 탄을 물리고, 급할 때는 기계를 부숴 자기를 살립니다. 액티브 넷이 서로를 필요로 합니다 — 기체가 없으면 강화탄도 궁극도 아무 일을 안 합니다.</p><p class="kit">액티브 4 · 궁극 1 · 패시브 4</p></div>
+<div class="cls" style="border-left-color:#f87171"><h3 style="color:#f87171">지정사수<span class="en">Marksman</span></h3><p class="tag" style="color:#f87171">한 발이 무겁습니다.</p><p class="intro">표식을 걸고, 자세를 잡고, 그 한 발에 전부를 겁니다. 연사로 채우는 병과가 아니라 "언제 쏘는가"를 고르는 병과입니다.</p><p class="kit">액티브 4 · 궁극 1 · 패시브 4</p></div>
+</section>
+
+<section>
+  <h2>병과별 피해 <span class="en">DAMAGE</span></h2>
+  <p class="dim">전부 <b>만렙 기준</b> 수치입니다. 보정을 받기 전의 값이라
+     실제로 들어가는 피해는 아래 4단계를 거쳐 더 커집니다.</p>
+  <table class="dmg">
+    <thead><tr><th>스킬</th><th>종류</th>
+               <th style="text-align:right">만렙 수치</th><th>피해 성격</th></tr></thead>
+    <tbody><tr><td class="grp" colspan="4" style="color:#ff7a3c">■ 레인저</td></tr><tr><td>레일 스트라이크</td><td class="c">충전형</td><td class="n">250<br><span class="lbl">폭심지당 데미지</span></td><td class="c">스킬 + 폭발 피해</td></tr><tr><td>트레이스 불렛</td><td class="c">액티브</td><td class="n">250<br><span class="lbl">명중당 데미지</span></td><td class="c">스킬 피해</td></tr><tr><td>피어싱 불렛</td><td class="c">액티브</td><td class="n">3<br><span class="lbl">관통 횟수</span></td><td class="c">총기 피해</td></tr><tr><td>건호크</td><td class="c">액티브</td><td class="n">60%<br><span class="lbl">포드 1기당 총알 데미지의</span></td><td class="c">스킬 + 총기 피해</td></tr><tr><td>제노사이드</td><td class="c">궁극</td><td class="n">40%<br><span class="lbl">데미지/연사 강화</span></td><td class="c">스킬 + 총기 피해</td></tr>
+<tr><td class="grp" colspan="4" style="color:#4ade80">■ 라이프가드</td></tr><tr><td>나노 수류탄</td><td class="c">액티브</td><td class="n">44<br><span class="lbl">틱당 피해</span></td><td class="c">스킬 피해</td></tr><tr><td>라이트닝건</td><td class="c">액티브</td><td class="n">80<br><span class="lbl">전격 피해</span></td><td class="c">스킬 피해</td></tr>
+<tr><td class="grp" colspan="4" style="color:#38bdf8">■ 테크니션</td></tr><tr><td>오토봇</td><td class="c">액티브</td><td class="n">65<br><span class="lbl">발당 데미지</span></td><td class="c">스킬 피해</td></tr><tr><td>센트리건</td><td class="c">액티브</td><td class="n">40<br><span class="lbl">발당 데미지</span></td><td class="c">스킬 피해</td></tr>
+<tr><td class="grp" colspan="4" style="color:#f87171">■ 지정사수</td></tr><tr><td>불렛 스피어</td><td class="c">충전형</td><td class="n">400<br><span class="lbl">궤도 피해</span></td><td class="c">스킬 피해</td></tr><tr><td>헌터 마크</td><td class="c">액티브</td><td class="n">660<br><span class="lbl">명중 피해</span></td><td class="c">스킬 + 총기 피해</td></tr><tr><td>타겟 락온</td><td class="c">액티브</td><td class="n">900<br><span class="lbl">발당 피해</span></td><td class="c">스킬 + 총기 피해</td></tr><tr><td>익스큐션</td><td class="c">궁극</td><td class="n">15<br><span class="lbl">폭발 배수</span></td><td class="c">스킬 + 총기 피해</td></tr></tbody>
+  </table>
+  <div class="note">피해를 주지 않는 스킬(회복 · 강화 · 제어 · 설치 보조)은 표에서 뺐습니다.
+     <b>스킬 피해</b>는 무기와 무관하고, <b>총기 피해</b>는 들고 있는 총을 따라갑니다.</div>
+</section>
+
+<section>
+  <h2>피해는 이렇게 계산됩니다</h2>
+  <ol class="calc">
+    <li><b>더하기</b> — 기본값에 그냥 더해지는 값. 뒤에 오는 모든 퍼센트의 대상이 되므로 가장 먼저 붙습니다.</li>
+    <li><b>퍼센트</b> — 전체 · 계열별 · 표식 · 대상 종류별 증가를 <b>전부 더해서 한 번에</b> 곱합니다.
+        곱해서 쌓지 않으므로 보정을 여러 개 껴도 수치가 터지지 않습니다.</li>
+    <li><b>곱하기</b> — 스킬 효율 · 헤드샷 · 치명타. 이 셋만 서로 독립적으로 곱해집니다.</li>
+    <li><b>방어율</b> — 난이도에 따른 감염자 방어율만큼 깎입니다.
+        방어율 무시는 방어율을 깎는 게 아니라 <b>비율만큼 무시</b>합니다.</li>
+  </ol>
+</section>
+
+
+
+<section class="more">
+  <a href="OutbreakLegion_TheClass.html">병과 · 스킬 · 레벨 수치 전체 보기</a>
+  <p>36개 스킬의 1레벨부터 만렙까지의 모든 수치와 계수식이 들어 있습니다.</p>
+</section>
+
+<footer>
+생성 2026-09-06 23:07 · 병과 4 · 스킬 36<br>
+이 페이지는 플러그인 코드에서 자동으로 생성됩니다 — 표의 수치는 서버에서 도는 값 그대로입니다.
+</footer>
+
+</div></body></html>
