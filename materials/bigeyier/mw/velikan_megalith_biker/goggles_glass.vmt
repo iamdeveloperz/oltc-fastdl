@@ -1,0 +1,12 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "BiGeYiEr/MW/velikan_megalith_biker/goggles_glass"
+	"$bumpmap" "BiGeYiEr/MW/velikan_megalith_biker/goggles_glass_n"	
+	"$phong" "1"
+	"$phongfresnelranges"	"[0.2 1 8.5]"						
+	"$phongboost"	"0.5" 		
+	"$phongexponent"	"5" 	
+	"$ambientocclusion"		"1"
+	"$nodecal"			"1"
+	"$nocull" 	"1"	
+}

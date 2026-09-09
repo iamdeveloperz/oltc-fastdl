@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "BiGeYiEr/MW/velikan_megalith_biker/material_2"
+	"$bumpmap" "BiGeYiEr/MW/velikan_megalith_biker/material_2_n"	
+	"$nodecal" 	"1"
+	"$nocull" 	"1"	
+}
